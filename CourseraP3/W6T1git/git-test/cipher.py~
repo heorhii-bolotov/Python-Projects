@@ -1,0 +1,63 @@
+from itertools import cycle
+
+
+class Cipher:
+<<<<<<< HEAD
+    alpha = 'abcdefghijklmnopqrstuvwxyz'
+=======
+    ALPHA = ' abcdefghijklmnopqrstuvwxyz'
+    ALPHA_LEN = len(ALPHA)
+
+>>>>>>> feature/vigenere
+
+class Caesar(Cipher):
+    @classmethod
+<<<<<<< HEAD
+    def get_char(cls, n):
+        return cls.alpha[n % 26]
+
+
+class Caesar(Cipher):
+    @classmethod
+    def encode(cls, text, n=5):
+        res = [Cipher.get_char(cls.alpha.index(c) + n) if c in cls.alpha else c for c in text]
+        return ''.join(res)
+
+    @classmethod
+    def decode(cls, text, n=5):
+        return cls.encode(text, -n)
+
+
+class Rot13:
+    @classmethod
+    def encode(cls, text):
+        return Caesar.encode(text, 13)
+
+    @classmethod
+    def decode(cls, text):
+        return cls.encode(text)
+=======
+    def caesar(cls, text, n):
+        result = ''
+        for c in text:
+            result += cls.ALPHA[(cls.ALPHA.index(c) + n) % cls.ALPHA_LEN]
+        return result
+
+
+class Vigenere(Cipher):
+    @classmethod
+    def __process(cls, text, key, fn):
+        result = ''
+        for a, b in zip(text, cycle(key)):
+            index = fn(cls.ALPHA.index(a), cls.ALPHA.index(b))
+            result += cls.ALPHA[index % cls.ALPHA_LEN]
+        return result
+
+    @classmethod
+    def decrypt(cls, text, key):
+        return cls.__process(text, key, lambda x, y: x - y)
+
+    @classmethod
+    def encrypt(cls, text, key):
+        return cls.__process(text, key, lambda x, y: x + y)
+>>>>>>> feature/vigenere
